@@ -1,0 +1,114 @@
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .card-tarea {
+            transition: all 0.3s ease;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .card-tarea:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+        
+        .card-img-top-custom {
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .img-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            height: 200px;
+        }
+        
+        .badge-estado {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 0.85rem;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .card-body-custom {
+            padding: 1.5rem;
+            background: white;
+        }
+        
+        .card-title-custom {
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #333;
+            font-size: 1.1rem;
+            min-height: 50px;
+        }
+        
+        .card-text-custom {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            min-height: 60px;
+        }
+        
+        .fecha-info {
+            font-size: 0.8rem;
+            color: #999;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .no-tareas {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .no-tareas i {
+            font-size: 6rem;
+            color: #ddd;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
