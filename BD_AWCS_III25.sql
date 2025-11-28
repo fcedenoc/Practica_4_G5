@@ -13,15 +13,26 @@ CREATE TABLE usuarios (
   fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE estados (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre_estado VARCHAR(15) NOT NULL UNIQUE
+);
+
 CREATE TABLE tareaUsuario (
   id INT AUTO_INCREMENT PRIMARY KEY,
   tarea_nombre VARCHAR(150) NOT NULL,
   descripcion VARCHAR(50),
-  estado ENUM('pendiente', 'en_progreso', 'completada') DEFAULT 'pendiente',
+  estado_id INT NOT NULL,
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   usuario_id INT NOT NULL,
   url_imagen VARCHAR(255),
+  FOREIGN KEY (estado_id) REFERENCES estados(id),
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+INSERT INTO estados (nombre_estado) VALUES 
+('Pendiente'),
+('En Progreso'),
+('Completada');
 
