@@ -38,6 +38,9 @@ Thumbs.db
 *.tmp
 *.swp
 
+# Uploaded images
+uploads/
+
 # PHPStorm
 *.iml
 
