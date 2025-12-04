@@ -1,12 +1,11 @@
 <?php
-// Calcular base path del proyecto relativo al DOCUMENT_ROOT para generar URLs correctas
 $appFs = realpath(__DIR__ . '/../../');
 $docRoot = realpath($_SERVER['DOCUMENT_ROOT']);
 $basePath = '';
 if ($appFs && $docRoot && strpos($appFs, $docRoot) === 0) {
     $basePath = str_replace('\\', '/', substr($appFs, strlen($docRoot)));
 }
-if ($basePath === '') $basePath = ''; // si está en la raíz
+if ($basePath === '') $basePath = ''; 
 ?>
 
 <link rel="stylesheet" href="<?= $basePath ?>/assets/css/home.css">
@@ -35,11 +34,11 @@ if ($basePath === '') $basePath = ''; // si está en la raíz
 </nav>
 
 <script>
-// Selector de tema
+
 document.addEventListener('DOMContentLoaded', () => {
     const selectorColor = document.getElementById("colorTema");
     if (selectorColor) {
-        // Cargar color guardado
+        
         const savedColor = localStorage.getItem('bgColor');
         if (savedColor) {
             document.body.style.background = savedColor;
@@ -49,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectorColor.addEventListener('change', () => {
             const val = selectorColor.value;
             document.body.style.background = val;
-            localStorage.setItem('bgColor', val); // Guardar en localStorage
+            localStorage.setItem('bgColor', val); 
         });
     }
 });
