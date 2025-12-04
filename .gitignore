@@ -1,0 +1,69 @@
+# ============================
+# PHP PROJECT .gitignore
+# ============================
+
+# Composer
+/vendor/
+composer.lock
+
+# Environment files
+.env
+.env.*
+
+# IDEs
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+*.log
+logs/
+storage/logs/
+
+# Cache
+cache/
+tmp/
+temp/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# PHPUnit
+.phpunit.result.cache
+
+# XAMPP / local configs
+*.bak
+*.tmp
+*.swp
+
+# PHPStorm
+*.iml
+
+# Uploads (si no quieres subir las imágenes del sistema)
+uploads/
+public/uploads/
+
+# Backup files
+*~
+*.backup
+
+# Node (si usás frontend)
+/node_modules/
+
+# Composer autoload files
+/vendor/
+
+# Laravel (si tu proyecto lo usa)
+storage/
+bootstrap/cache/
+
+# Cache de sesiones
+sessions/
+
+# Configuración de servidores locales
+.php_cs.cache
+
+# Carpeta de configuraciones secretas (si la tienes)
+config/local.php
