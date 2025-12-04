@@ -9,7 +9,8 @@ include __DIR__ . '/../php/conexionBD.php'; // Incluir conexión a BD.
 
 $mysqli = abrirConexion(); // Abrir conexión.
 
-$sql = " // Consulta para obtener todas las tareas con su estado.
+// Consulta para obtener todas las tareas con su estado.
+$sql = "
 SELECT t.id, t.tarea_nombre, t.descripcion, e.nombre_estado, t.fecha_creacion
 FROM tareaUsuario t
 INNER JOIN estados e ON t.estado_id = e.id
