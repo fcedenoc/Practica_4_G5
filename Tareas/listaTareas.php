@@ -81,9 +81,9 @@ $resultado = $stmt->get_result();
                     <td><?= htmlspecialchars($t['nombre_estado']) ?></td>
                     <td><?= $t['fecha_creacion'] ?></td>
                     <td>
-                     <a class="btn btn-secondary btn-sm" href="/Sem3chepeo/Tareas/editar_tarea.php?id=<?= $t['id'] ?>">Editar</a>
+                     <a class="btn btn-secondary btn-sm" href="/Francinny_Cedeno_P4_JN_G5/Tareas/editar_tarea.php?id=<?= $t['id'] ?>">Editar</a>
                      <a onclick="return confirm('¿Deseas eliminar esta tarea?')" class="btn btn-danger btn-sm"
-                        href="/Sem3chepeo/Tareas/eliminaTarea.php?id=<?= $t['id'] ?>">Eliminar</a>
+                        href="/Francinny_Cedeno_P4_JN_G5/Tareas/eliminaTarea.php?id=<?= $t['id'] ?>">Eliminar</a>
                     </td>
                 </tr>
                 <?php endwhile; ?>
