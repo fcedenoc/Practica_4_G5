@@ -59,7 +59,7 @@ try{
 
         $fila = $resultado->fetch_assoc();
 
-        //Validar la contraseña para ver que sea igual al hash
+        
         if(password_verify($clave, $fila['clave'])){
 
             $_SESSION['id'] = $fila['id'];

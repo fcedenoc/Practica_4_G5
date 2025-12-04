@@ -1,8 +1,6 @@
 ﻿<?php
-// Este archivo permite agregar una nueva tarea al sistema.
-
 if (session_status() == PHP_SESSION_NONE) {
-    session_start(); // Iniciar sesión para verificar usuario.
+    session_start(); 
 }
 
 if(!isset($_SESSION['usuario'])){
@@ -14,15 +12,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include __DIR__ . '/../php/conexionBD.php'; // Incluir conexión a BD.
+include __DIR__ . '/../php/conexionBD.php'; 
 
-$mysqli = abrirConexion(); // Abrir conexión.
+$mysqli = abrirConexion(); 
 
-$success = false; // Variable para saber si se guardó correctamente.
-$errors = []; // Array para errores.
-$userId = $_SESSION['id'] ?? 0; // ID del usuario logueado.
+$success = false; 
+$errors = []; 
+$userId = $_SESSION['id'] ?? 0; 
 
-$estados = $mysqli->query("SELECT id, nombre_estado FROM estados ORDER BY id"); // Obtener estados disponibles.
+$estados = $mysqli->query("SELECT id, nombre_estado FROM estados ORDER BY id"); 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -32,10 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $urlImagen = null;
 
     if ($nombre === '') $errors[] = "El nombre es obligatorio.";
-    if ($descripcion === '') $errors[] = "La descripciÃ³n es obligatoria.";
+    if ($descripcion === '') $errors[] = "La descripción es obligatoria.";
     if (strlen($nombre) > 255) $errors[] = "El nombre no puede superar 255 caracteres.";
     if (strlen($descripcion) > 1000) $errors[] = "La descripción no puede superar 1000 caracteres.";
-    if ($estado <= 0) $errors[] = "Debe seleccionar un estado vÃ¡lido.";
+    if ($estado <= 0) $errors[] = "Debe seleccionar un estado valido.";
 
     if (!empty($_FILES['url_imagen']['name'])) {
 
@@ -103,24 +101,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     cerrarConexion($mysqli);
 
     if ($success) {
-        header("Location: listaTareas.php"); // Redirigir a la lista de tareas después de guardar.
+        header("Location: listaTareas.php"); 
         exit;
     }
 }
 ?>
 
-<!-- Página para agregar una nueva tarea -->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Nueva Tarea</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../assets/css/home.css"> <!-- CSS personalizado -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
 </head>
 <body>
 
-<?php include __DIR__ . '/../php/componentes/navbar.php'?> <!-- Incluir barra de navegación -->
+<?php include __DIR__ . '/../php/componentes/navbar.php'?> 
 
 
 <div class="container mt-5">

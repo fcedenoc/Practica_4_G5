@@ -1,29 +1,28 @@
 <?php
-// Iniciar sesión antes de cualquier salida
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Mostrar errores para depuración (puedes quitar en producción)
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Conexión a la base de datos
+
 include __DIR__ . '/../php/conexionBD.php';
 $mysqli = abrirConexion();
 
-// Validar ID de la tarea
+
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 if ($id === 0) {
     header("Location: listaTareas.php");
     exit;
 }
 
-// Arreglo para errores
+
 $errors = [];
 
-// Procesar formulario
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['tarea_nombre'] ?? '');
     $descripcion = trim($_POST['descripcion'] ?? '');
@@ -32,18 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validaciones
     if ($nombre === '') $errors[] = "El nombre es obligatorio.";
-    if (strlen($nombre) > 255) $errors[] = "El nombre no puede superar 255 caracteres.";
+    if (strlen($nombre) > 100) $errors[] = "El nombre no puede superar 100 caracteres.";
     if ($descripcion === '') $errors[] = "La descripción es obligatoria.";
     if (strlen($descripcion) > 1000) $errors[] = "La descripción no puede superar 1000 caracteres.";
     if ($estado <= 0) $errors[] = "Debe seleccionar un estado válido.";
 
-    // Manejo de imagen opcional
+    
     if (!empty($_FILES['url_imagen']['name'])) {
         if ($_FILES['url_imagen']['error'] === UPLOAD_ERR_OK) {
             $permitidos = ['image/jpeg','image/png','image/webp'];
             $tipo = $_FILES['url_imagen']['type'];
             if (!in_array($tipo, $permitidos)) {
-                $errors[] = "Formato de imagen no permitido.";
+                $errors[] = "Formato de imagen no es permitido.";
             } elseif ($_FILES['url_imagen']['size'] > 2 * 1024 * 1024) {
                 $errors[] = "La imagen supera 2MB.";
             } else {
@@ -63,7 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Actualizar tarea si no hay errores
     if (empty($errors)) {
         if ($urlImagen !== null) {
             $stmt = $mysqli->prepare("UPDATE tareaUsuario SET tarea_nombre=?, descripcion=?, estado_id=?, url_imagen=? WHERE id=?");
@@ -85,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Consultar tarea para el usuario logueado
+
 $userId = $_SESSION['id'] ?? 0;
 $stmt = $mysqli->prepare(
     "SELECT t.id, t.tarea_nombre, t.descripcion, t.estado_id, t.url_imagen, e.nombre_estado
@@ -98,12 +96,12 @@ $stmt->execute();
 $taskData = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
-// Obtener estados para el select
+
 $estados = $mysqli->query("SELECT id, nombre_estado FROM estados ORDER BY id");
 
 cerrarConexion($mysqli);
 
-// Si no hay tarea, redirigir
+
 if (!$taskData) {
     header("Location: listaTareas.php");
     exit;

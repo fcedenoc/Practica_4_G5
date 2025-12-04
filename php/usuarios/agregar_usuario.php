@@ -21,7 +21,6 @@ $success = false;
 $errors = [];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Tomar los datos del formulario
     $nombre = trim($_POST['nombre'] ?? '');
     $correo = trim($_POST['correo'] ?? '');
     $usuario = trim($_POST['usuario'] ?? '');
@@ -41,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (strlen($contrasenna) > 255) $errors[] = "Contraseña no puede superar 255 caracteres.";
 
     if (empty($errors)) {
-        // Verificar si el correo ya existe
+        
         $stmt_check = $mysqli->prepare("SELECT id FROM usuarios WHERE correo = ?");
         $stmt_check->bind_param("s", $correo);
         $stmt_check->execute();
@@ -51,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmt_check->close();
 
-        // Verificar si el usuario ya existe
+        
         $stmt_check2 = $mysqli->prepare("SELECT id FROM usuarios WHERE usuario = ?");
         $stmt_check2->bind_param("s", $usuario);
         $stmt_check2->execute();

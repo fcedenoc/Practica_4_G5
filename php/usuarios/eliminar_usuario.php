@@ -4,12 +4,12 @@ include '../conexionBD.php';
 
 $mysqli = abrirConexion();
 
-if(isset($_GET['id'])){  //Si esta la variable llena, que le haga get al parametro ID
+if(isset($_GET['id'])){  
 
     $id = intval($_GET['id']);
 
     $stmt = $mysqli->prepare("DELETE FROM usuarios WHERE id = ?");
-    $stmt->bind_param("i", $id); //valor de tipo integer y el que vamos a agregar es el ID.
+    $stmt->bind_param("i", $id); 
     $stmt->execute();
     $stmt->close();
 

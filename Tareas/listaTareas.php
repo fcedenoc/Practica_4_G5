@@ -1,6 +1,6 @@
 <?php
 
-ini_set('display_errors', 1); // Mostrar errores.
+ini_set('display_errors', 1); 
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
@@ -13,14 +13,14 @@ if(!isset($_SESSION['usuario'])){
     exit();
 }
 
-include __DIR__ . '/../php/conexionBD.php'; // Incluir conexión a BD.
+include __DIR__ . '/../php/conexionBD.php'; 
 
-$mysqli = abrirConexion(); // Abrir conexión.
+$mysqli = abrirConexion(); 
 
 
-$userId = $_SESSION['id'] ?? 0; // ID del usuario logueado.
+$userId = $_SESSION['id'] ?? 0; 
 
-// Consulta para obtener todas las tareas del usuario con su estado.
+
 $sql = "
 SELECT t.id, t.tarea_nombre, t.descripcion, e.nombre_estado, t.fecha_creacion
 FROM tareaUsuario t
@@ -29,42 +29,38 @@ WHERE t.usuario_id = ?
 ORDER BY t.fecha_creacion DESC
 ";
 
-$stmt = $mysqli->prepare($sql); // Preparar consulta.
-$stmt->bind_param("i", $userId); // Vincular parámetro.
-$stmt->execute(); // Ejecutar.
-$resultado = $stmt->get_result(); // Obtener resultados.
+$stmt = $mysqli->prepare($sql); 
+$stmt->bind_param("i", $userId); 
+$stmt->execute(); 
+$resultado = $stmt->get_result(); 
 
 ?>
-<!-- Página para listar todas las tareas -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Listado de Tareas</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> 
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> 
 
-    <!-- <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet"> DataTables CSS -->
-    <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> DataTables JS -->
-    <!-- <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
 
 </head>
 <body>
 
-<?php include __DIR__ . '/../php/componentes/navbar.php'?> <!-- Incluir la barra de navegación -->
+<?php include __DIR__ . '/../php/componentes/navbar.php'?>
 
-<div class="container mt-5"> <!-- Contenedor principal -->
+<div class="container mt-5"> 
 
-    <div class="card p-4 shadow"> <!-- Tarjeta con la tabla -->
+    <div class="card p-4 shadow"> 
 
-        <div class="d-flex justify-content-between mb-5"> <!-- Encabezado con título y botón -->
+        <div class="d-flex justify-content-between mb-5"> 
             <h3>Lista de Tareas</h3>
-            <a class="btn btn-success" href="agregaTarea.php">+ Agregar Tarea</a> <!-- Botón para agregar nueva tarea -->
+            <a class="btn btn-success" href="agregaTarea.php">+ Agregar Tarea</a> 
         </div>
 
-        <table id="tabla" class="table table-striped table-hover align-middle"> <!-- Tabla para mostrar las tareas -->
+        <table id="tabla" class="table table-striped table-hover align-middle"> 
             <thead>
                 <tr>
                     <th>ID</th>
@@ -87,7 +83,7 @@ $resultado = $stmt->get_result(); // Obtener resultados.
                     <td>
                      <a class="btn btn-secondary btn-sm" href="/Sem3chepeo/Tareas/editar_tarea.php?id=<?= $t['id'] ?>">Editar</a>
                      <a onclick="return confirm('¿Deseas eliminar esta tarea?')" class="btn btn-danger btn-sm"
-                        href="/Sem3chepeo/Tareas/eliminar_tarea.php?id=<?= $t['id'] ?>">Eliminar</a>
+                        href="/Sem3chepeo/Tareas/eliminaTarea.php?id=<?= $t['id'] ?>">Eliminar</a>
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -98,17 +94,8 @@ $resultado = $stmt->get_result(); // Obtener resultados.
 
 </div>
 
-<!-- <script> Script para inicializar DataTable con idioma español
-$(document).ready(function(){
-    $('#tabla').dataTable({
-        language: {
-            url: 'https://cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json'
-        }
-    })
-})
-</script> -->
 
-<?php cerrarConexion($mysqli); ?> <!-- Cerrar la conexión a la base de datos -->
+<?php cerrarConexion($mysqli); ?> 
 </body>
 </html>
 

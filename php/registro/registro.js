@@ -3,7 +3,7 @@ document.getElementById("frmRegistro").addEventListener("submit", async function
 
     e.preventDefault();
 
-    //Obtener los valores de los input
+   
 
     const nombre = document.getElementById("nombre").value.trim();
     const correo = document.getElementById("correo").value.trim();
@@ -57,7 +57,7 @@ document.getElementById("frmRegistro").addEventListener("submit", async function
 
     try{
 
-        // Intenta todo lo que hay dentro del try
+       
         const response = await fetch("php/registro/registro.php", {
             method: "POST",
             body: datos
@@ -89,7 +89,7 @@ document.getElementById("frmRegistro").addEventListener("submit", async function
 
     }catch(error){
 
-        //Si algo del try falla de forma inesperada o controlada, entonces cae acá.
+        
         console.log(error)
 
         Toast.fire({

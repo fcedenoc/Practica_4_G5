@@ -25,9 +25,9 @@ if ($id === 0) {
 
 $errors = [];
 
-// Actualizar usuario
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    //Tomar los datos del formulario
+    
     $nombre = trim($_POST['nombre'] ?? '');
     $correo = trim($_POST['correo'] ?? '');
     $usuario = trim($_POST['usuario'] ?? '');
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     }
 }
 
-// Consultar usuario
+
 $stmt = $mysqli->prepare("SELECT id, nombre, correo, usuario, fecha_nacimiento, genero FROM usuarios WHERE id = ?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
