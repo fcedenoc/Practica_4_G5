@@ -1,16 +1,20 @@
-﻿<?php\r\nsession_start();\r\nini_set('display_errors', 1);
+﻿<?php
+// Este archivo permite agregar una nueva tarea al sistema.
+
+session_start(); // Iniciar sesión para verificar usuario.
+ini_set('display_errors', 1); // Mostrar errores para depurar.
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include __DIR__ . '/../php/conexionBD.php';
+include __DIR__ . '/../php/conexionBD.php'; // Incluir conexión a BD.
 
-$mysqli = abrirConexion();
+$mysqli = abrirConexion(); // Abrir conexión.
 
-$success = false;
-$errors = [];
-$userId = $_SESSION['user_id'] ?? 0;
+$success = false; // Variable para saber si se guardó correctamente.
+$errors = []; // Array para errores.
+$userId = $_SESSION['user_id'] ?? 0; // ID del usuario logueado.
 
-$estados = $mysqli->query("SELECT id, nombre_estado FROM estados ORDER BY id");
+$estados = $mysqli->query("SELECT id, nombre_estado FROM estados ORDER BY id"); // Obtener estados disponibles.
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -91,23 +95,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     cerrarConexion($mysqli);
 
     if ($success) {
-        header("Location: listaTarea.php");
+        header("Location: listaTareas.php"); // Redirigir a la lista de tareas después de guardar.
         exit;
     }
 }
 ?>
 
+<!-- Página para agregar una nueva tarea -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Nueva Tarea</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/Practica_4_G5/assets/home.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/css/home.css"> <!-- CSS personalizado -->
 </head>
 <body>
 
-<?php include __DIR__ . '/../php/componentes/navbar.php'?>
+<?php include __DIR__ . '/../php/componentes/navbar.php'?> <!-- Incluir barra de navegación -->
 
 
 <div class="container mt-5">
