@@ -1,7 +1,15 @@
 ﻿<?php
 // Este archivo permite agregar una nueva tarea al sistema.
 
-session_start(); // Iniciar sesión para verificar usuario.
+if (session_status() == PHP_SESSION_NONE) {
+    session_start(); // Iniciar sesión para verificar usuario.
+}
+
+if(!isset($_SESSION['usuario'])){
+    header("Location: ../index.php");
+    exit();
+}
+
 ini_set('display_errors', 1); // Mostrar errores para depurar.
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -12,7 +20,7 @@ $mysqli = abrirConexion(); // Abrir conexión.
 
 $success = false; // Variable para saber si se guardó correctamente.
 $errors = []; // Array para errores.
-$userId = $_SESSION['user_id'] ?? 0; // ID del usuario logueado.
+$userId = $_SESSION['id'] ?? 0; // ID del usuario logueado.
 
 $estados = $mysqli->query("SELECT id, nombre_estado FROM estados ORDER BY id"); // Obtener estados disponibles.
 
@@ -25,8 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($nombre === '') $errors[] = "El nombre es obligatorio.";
     if ($descripcion === '') $errors[] = "La descripciÃ³n es obligatoria.";
-    if (strlen($nombre) > 150) $errors[] = "El nombre no puede superar 150 caracteres.";
-    if (strlen($descripcion) > 50) $errors[] = "La descripciÃ³n no puede superar 50 caracteres.";
+    if (strlen($nombre) > 255) $errors[] = "El nombre no puede superar 255 caracteres.";
+    if (strlen($descripcion) > 1000) $errors[] = "La descripción no puede superar 1000 caracteres.";
     if ($estado <= 0) $errors[] = "Debe seleccionar un estado vÃ¡lido.";
 
     if (!empty($_FILES['url_imagen']['name'])) {
@@ -51,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $destino = $uploadDir . $nuevoNombre;
 
                 if (move_uploaded_file($_FILES['url_imagen']['tmp_name'], $destino)) {
-                    $urlImagen = '/uploads/' . $nuevoNombre;
+                    $urlImagen = 'uploads/' . $nuevoNombre;
                 } else {
                     $errors[] = "Error al subir la imagen.";
                 }
@@ -139,8 +147,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="mb-3">
-                <label class="form-label">DescripciÃ³n</label>
-                <input type="text" name="descripcion" class="form-control">
+                <label class="form-label">Descripción</label>
+                <textarea name="descripcion" class="form-control" rows="3"></textarea>
             </div>
 
             <div class="mb-3">
@@ -161,7 +169,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div class="text-end">
                 <button class="btn btn-success" type="submit">Guardar</button>
-                <a href="listaTarea.php" class="btn btn-secondary">Cancelar</a>
+                <a href="listaTareas.php" class="btn btn-secondary">Cancelar</a>
             </div>
 
         </form>

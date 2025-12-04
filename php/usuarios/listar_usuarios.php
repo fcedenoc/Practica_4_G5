@@ -5,6 +5,15 @@ ini_set('display_errors', 1); // Mostrar errores.
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if(!isset($_SESSION['usuario'])){
+    header("Location: ../../index.php");
+    exit();
+}
+
 include '../conexionBD.php'; // Incluir conexión.
 
 $mysqli= abrirConexion(); // Abrir conexión.
@@ -40,7 +49,7 @@ cerrarConexion($mysqli); // Cerrar conexión.
 
         <div class="d-flex justify-content-between mb-5"> <!-- Encabezado -->
             <h3>Usuarios Registrados</h3>
-            <a class="btn btn-success" href="">+ Agregar Usuario</a> <!-- Botón (no funciona aún) -->
+            <a class="btn btn-success" href="agregar_usuario.php">+ Agregar Usuario</a>
         </div>
 
         <table id="tabla" class="table table-striped table-hover align-middle" > <!-- Tabla de usuarios -->

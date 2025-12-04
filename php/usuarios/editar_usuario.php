@@ -3,6 +3,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if(!isset($_SESSION['usuario'])){
+    header("Location: ../../index.php");
+    exit();
+}
+
 include '../conexionBD.php';
 
 $mysqli= abrirConexion();
@@ -28,16 +37,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     //Validaciones
     if($nombre == '') $errors[] = "Nombre es obligatorio.";
+    if(strlen($nombre) > 255) $errors[] = "Nombre no puede superar 255 caracteres.";
 
     if(!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Correo no válido.";
-    } // ← ESTA FALTABA
+    }
+    if(strlen($correo) > 255) $errors[] = "Correo no puede superar 255 caracteres.";
 
     if($usuario == '') $errors[] = "Usuario es obligatorio.";
+    if(strlen($usuario) > 50) $errors[] = "Usuario no puede superar 50 caracteres.";
 
     if($contrasenna != '' && strlen($contrasenna) < 6) {
         $errors[] = "La contraseña debe contener al menos 6 caracteres.";
     }
+    if($contrasenna != '' && strlen($contrasenna) > 255) $errors[] = "Contraseña no puede superar 255 caracteres.";
 
     if (empty($errors)) {
 
@@ -58,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
         }
 
         $ok = $stmt->execute();
-        $stmt->close();
 
         if($ok){
             cerrarConexion($mysqli);

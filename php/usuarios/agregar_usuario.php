@@ -4,6 +4,15 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if(!isset($_SESSION['usuario'])){
+    header("Location: ../../index.php");
+    exit();
+}
+
 include '../conexionBD.php';
 
 $mysqli = abrirConexion();
@@ -22,15 +31,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validaciones
     if ($nombre === '') $errors[] = "Nombre es obligatorio.";
+    if (strlen($nombre) > 255) $errors[] = "Nombre no puede superar 255 caracteres.";
     if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) $errors[] = "Correo no válido.";
+    if (strlen($correo) > 255) $errors[] = "Correo no puede superar 255 caracteres.";
     if ($usuario === '') $errors[] = "Usuario es obligatorio.";
+    if (strlen($usuario) > 50) $errors[] = "Usuario no puede superar 50 caracteres.";
     if ($contrasenna === '') $errors[] = "Contraseña es obligatoria.";
     if ($contrasenna !== '' && strlen($contrasenna) < 6) $errors[] = "La contraseña debe contener al menos 6 caracteres.";
+    if (strlen($contrasenna) > 255) $errors[] = "Contraseña no puede superar 255 caracteres.";
 
     if (empty($errors)) {
-        $clave = password_hash($contrasenna, PASSWORD_DEFAULT);
+        // Verificar si el correo ya existe
+        $stmt_check = $mysqli->prepare("SELECT id FROM usuarios WHERE correo = ?");
+        $stmt_check->bind_param("s", $correo);
+        $stmt_check->execute();
+        $result_check = $stmt_check->get_result();
+        if ($result_check->num_rows > 0) {
+            $errors[] = "El correo ya está registrado.";
+        }
+        $stmt_check->close();
 
-        $stmt = $mysqli->prepare("INSERT INTO usuarios(nombre, correo, usuario, clave, fecha_nacimiento, genero) VALUES(?, ?, ?, ?, ?, ?)");
+        // Verificar si el usuario ya existe
+        $stmt_check2 = $mysqli->prepare("SELECT id FROM usuarios WHERE usuario = ?");
+        $stmt_check2->bind_param("s", $usuario);
+        $stmt_check2->execute();
+        $result_check2 = $stmt_check2->get_result();
+        if ($result_check2->num_rows > 0) {
+            $errors[] = "El nombre de usuario ya está en uso.";
+        }
+        $stmt_check2->close();
+
+        if (empty($errors)) {
+            $clave = password_hash($contrasenna, PASSWORD_DEFAULT);
+
+            $stmt = $mysqli->prepare("INSERT INTO usuarios(nombre, correo, usuario, clave, fecha_nacimiento, genero) VALUES(?, ?, ?, ?, ?, ?)");
 
         if (!$stmt) {
             $errors[] = "Error en prepare al insertar el usuario: " . $mysqli->error;
@@ -43,8 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $success = true;
             }
 
-            $stmt->close();
+            }
+            $stmt_check2->close();
         }
+        $stmt_check->close();
     }
 
     if ($success) {

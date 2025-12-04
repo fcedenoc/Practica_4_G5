@@ -1,23 +1,38 @@
 <?php
-// Este archivo muestra la lista completa de tareas en una tabla.
 
 ini_set('display_errors', 1); // Mostrar errores.
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if(!isset($_SESSION['usuario'])){
+    header("Location: ../index.php");
+    exit();
+}
+
 include __DIR__ . '/../php/conexionBD.php'; // Incluir conexión a BD.
 
 $mysqli = abrirConexion(); // Abrir conexión.
 
-// Consulta para obtener todas las tareas con su estado.
+
+$userId = $_SESSION['id'] ?? 0; // ID del usuario logueado.
+
+// Consulta para obtener todas las tareas del usuario con su estado.
 $sql = "
 SELECT t.id, t.tarea_nombre, t.descripcion, e.nombre_estado, t.fecha_creacion
 FROM tareaUsuario t
 INNER JOIN estados e ON t.estado_id = e.id
+WHERE t.usuario_id = ?
 ORDER BY t.fecha_creacion DESC
 ";
 
-$resultado = $mysqli->query($sql); // Ejecutar consulta.
+$stmt = $mysqli->prepare($sql); // Preparar consulta.
+$stmt->bind_param("i", $userId); // Vincular parámetro.
+$stmt->execute(); // Ejecutar.
+$resultado = $stmt->get_result(); // Obtener resultados.
 
 ?>
 <!-- Página para listar todas las tareas -->
@@ -31,9 +46,9 @@ $resultado = $mysqli->query($sql); // Ejecutar consulta.
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- jQuery -->
 
-    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet"> <!-- DataTables CSS -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <!-- <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet"> DataTables CSS -->
+    <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> DataTables JS -->
+    <!-- <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script> -->
 
 </head>
 <body>
@@ -70,9 +85,9 @@ $resultado = $mysqli->query($sql); // Ejecutar consulta.
                     <td><?= htmlspecialchars($t['nombre_estado']) ?></td>
                     <td><?= $t['fecha_creacion'] ?></td>
                     <td>
-                     <a class="btn btn-secondary btn-sm" href="editar_tarea.php?id=<?= $t['id'] ?>">Editar</a>
+                     <a class="btn btn-secondary btn-sm" href="/Sem3chepeo/Tareas/editar_tarea.php?id=<?= $t['id'] ?>">Editar</a>
                      <a onclick="return confirm('¿Deseas eliminar esta tarea?')" class="btn btn-danger btn-sm"
-                        href="eliminar_tarea.php?id=<?= $t['id'] ?>">Eliminar</a>
+                        href="/Sem3chepeo/Tareas/eliminar_tarea.php?id=<?= $t['id'] ?>">Eliminar</a>
                     </td>
                 </tr>
                 <?php endwhile; ?>
@@ -83,7 +98,7 @@ $resultado = $mysqli->query($sql); // Ejecutar consulta.
 
 </div>
 
-<script> <!-- Script para inicializar DataTable con idioma español -->
+<!-- <script> Script para inicializar DataTable con idioma español
 $(document).ready(function(){
     $('#tabla').dataTable({
         language: {
@@ -91,7 +106,7 @@ $(document).ready(function(){
         }
     })
 })
-</script>
+</script> -->
 
 <?php cerrarConexion($mysqli); ?> <!-- Cerrar la conexión a la base de datos -->
 </body>

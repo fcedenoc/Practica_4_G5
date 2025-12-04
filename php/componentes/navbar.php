@@ -34,4 +34,24 @@ if ($basePath === '') $basePath = ''; // si está en la raíz
     </div>
 </nav>
 
+<script>
+// Selector de tema
+document.addEventListener('DOMContentLoaded', () => {
+    const selectorColor = document.getElementById("colorTema");
+    if (selectorColor) {
+        // Cargar color guardado
+        const savedColor = localStorage.getItem('bgColor');
+        if (savedColor) {
+            document.body.style.background = savedColor;
+            selectorColor.value = savedColor;
+        }
+
+        selectorColor.addEventListener('change', () => {
+            const val = selectorColor.value;
+            document.body.style.background = val;
+            localStorage.setItem('bgColor', val); // Guardar en localStorage
+        });
+    }
+});
+</script>
 
