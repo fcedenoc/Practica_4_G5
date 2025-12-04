@@ -1,19 +1,21 @@
 <?php
+// Este archivo muestra la lista de todos los usuarios registrados.
 
-ini_set('display_errors', 1);
+ini_set('display_errors', 1); // Mostrar errores.
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include '../conexionBD.php';
+include '../conexionBD.php'; // Incluir conexión.
 
-$mysqli= abrirConexion();
+$mysqli= abrirConexion(); // Abrir conexión.
 
-$resultado = $mysqli->query("SELECT id, nombre, correo, usuario, fecha_nacimiento, genero FROM usuarios");
+$resultado = $mysqli->query("SELECT id, nombre, correo, usuario, fecha_nacimiento, genero FROM usuarios"); // Obtener usuarios.
 
-cerrarConexion($mysqli);
+cerrarConexion($mysqli); // Cerrar conexión.
 
 ?>
 
+<!-- Página para listar usuarios -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,27 +23,27 @@ cerrarConexion($mysqli);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listado de Usuarios</title>
-      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
- 
-    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+      <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> <!-- jQuery -->
+
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet"> <!-- DataTables -->
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
 </head>
 <body>
 
-<?php include '../componentes/navbar.php'?>
+<?php include '../componentes/navbar.php'?> <!-- Barra de navegación -->
 
-<div class="container mt-5">
+<div class="container mt-5"> <!-- Contenedor -->
 
-    <div class="card p-4 shadow">
+    <div class="card p-4 shadow"> <!-- Tarjeta -->
 
-        <div class="d-flex justify-content-between mb-5">
+        <div class="d-flex justify-content-between mb-5"> <!-- Encabezado -->
             <h3>Usuarios Registrados</h3>
-            <a class="btn btn-success" href="">+ Agregar Usuario</a>
+            <a class="btn btn-success" href="">+ Agregar Usuario</a> <!-- Botón (no funciona aún) -->
         </div>
 
-        <table id="tabla" class="table table-striped table-hover align-middle" >
+        <table id="tabla" class="table table-striped table-hover align-middle" > <!-- Tabla de usuarios -->
             <thead>
                 <tr>
                     <th>ID</th>
@@ -82,7 +84,7 @@ cerrarConexion($mysqli);
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
+    <script> <!-- Inicializar DataTable -->
 
         $(document).ready(function(){
             $('#tabla').dataTable({

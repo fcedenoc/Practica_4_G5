@@ -1,20 +1,22 @@
 <?php
-ini_set('display_errors', 1);
+// Este archivo es para que los usuarios se registren en el sistema.
+
+ini_set('display_errors', 1); // Mostrar errores para depurar.
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 ?>
 
+<!-- Página de registro de usuarios -->
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"> <!-- Idioma español -->
 <head>
-  <meta charset="UTF-8">
-  <title>Registro</title>
-  <!-- Bootstrap -->
+  <meta charset="UTF-8"> <!-- Codificación -->
+  <title>Registro</title> <!-- Título -->
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-  <style>
+  <style> <!-- Estilos CSS personalizados -->
     body {
       background: linear-gradient(135deg, #0dcaf0, #0d6efd); /* Celeste -> Azul */
       height: 100vh;
@@ -75,9 +77,9 @@ error_reporting(E_ALL);
 </head>
 <body>
   
-  <div class="register-card">
-    <h3>Crear Cuenta</h3>
-    <form id="frmRegistro" name="frmRegistro">
+  <div class="register-card"> <!-- Caja del formulario -->
+    <h3>Crear Cuenta</h3> <!-- Título -->
+    <form id="frmRegistro" name="frmRegistro"> <!-- Formulario de registro -->
       <div class="mb-3">
         <label for="nombre" class="form-label">Nombre completo</label>
         <input type="text" class="form-control" id="nombre" placeholder="Ingrese su nombre">
@@ -124,10 +126,11 @@ error_reporting(E_ALL);
     </div>
   </div>
 
+  <!-- Scripts -->
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="php/registro/registro.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="php/registro/registro.js"></script> <!-- JS para el registro -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Alertas -->
 
 </body>
 </html>
